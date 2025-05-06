@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloader Modern</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      background: linear-gradient(145deg, #1e1b3a, #2d2963);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 20px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.05);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
+    }
+
+    .btn:hover::before {
+      top: -20%;
+      left: -20%;
+    }
+
+    .btn:hover {
+      background: linear-gradient(145deg, #393175, #5b53aa);
+      transform: translateY(-2px);
+    }
+
+    .card {
+      display: none;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 20px;
+      animation: slideUp 0.6s ease forwards;
+    }
+
+    .card input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 12px;
+    }
+
+    .card button {
+      width: 48%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #6c63ff;
+      color: white;
+      font-weight: bold;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .card button:hover {
+      background: #857dff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="title">Downloader All-In-One</div>
+
+  <div class="button-group">
+    <button class="btn" onclick="showCard('tiktok')"><i class="fab fa-tiktok"></i> TikTok</button>
+    <button class="btn" onclick="showCard('instagram')"><i class="fab fa-instagram"></i> Instagram</button>
+    <button class="btn" onclick="showCard('facebook')"><i class="fab fa-facebook"></i> Facebook</button>
+    <button class="btn" onclick="showCard('youtube')"><i class="fab fa-youtube"></i> YouTube</button>
+  </div>
+
+  <div id="tiktok" class="card">
+    <input type="text" id="tiktokUrl" placeholder="Paste TikTok URL..." />
+    <button onclick="download('tiktok')">Download</button>
+  </div>
+
+  <div id="instagram" class="card">
+    <input type="text" id="igUrl" placeholder="Paste Instagram URL..." />
+    <button onclick="download('ig')">Download</button>
+  </div>
+
+  <div id="facebook" class="card">
+    <input type="text" id="fbUrl" placeholder="Paste Facebook URL..." />
+    <button onclick="download('fb')">Download</button>
+  </div>
+
+  <div id="youtube" class="card">
+    <input type="text" id="ytUrl" placeholder="Paste YouTube URL..." />
+    <button onclick="download('ytmp3')">MP3</button>
+    <button onclick="download('ytmp4')">MP4</button>
+  </div>
+</div>
+
+<script>
+  function showCard(id) {
+    document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function download(type) {
+    let url = '';
+    if (type === 'tiktok') url = document.getElementById('tiktokUrl').value;
+    if (type === 'ig') url = document.getElementById('igUrl').value;
+    if (type === 'fb') url = document.getElementById('fbUrl').value;
+    if (type === 'ytmp3' || type === 'ytmp4') url = document.getElementById('ytUrl').value;
+
+    const apiUrl = {
+      tiktok: `https://api.riicode.my.id/api/download/tiktokdl?url=${url}`,
+      ig: `https://api.riicode.my.id/api/download/igdl?url=${url}`,
+      fb: `https://api.riicode.my.id/api/download/fbdl?url=${url}`,
+      ytmp3: `https://api.riicode.my.id/api/download/ytmp3?url=${url}`,
+      ytmp4: `https://api.riicode.my.id/api/download/ytmp4?url=${url}`
+    };
+
+    window.open(apiUrl[type], '_blank');
+  }
+</script>
+
+</body>
+</html>
